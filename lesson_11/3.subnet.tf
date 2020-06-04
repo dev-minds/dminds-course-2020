@@ -13,3 +13,16 @@ resource "aws_subnet" "dminds_sb_pb" {
   })
 
 }
+
+resource "aws_subnet" "dminds_sb_private" {
+  count             = length(var.private_ip_range)
+  vpc_id            = aws_vpc.dminds_vpc_res.id
+  cidr_block        = var.private_ip_range[count.index]
+  availability_zone = var.private_azs[count.index]
+  map_public_ip_on_launch  = false
+
+  tags = merge({
+    "Name" = "PreProdPrivateSubnet"
+  })
+
+}
