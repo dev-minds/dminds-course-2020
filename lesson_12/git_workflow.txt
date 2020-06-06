@@ -1,0 +1,14 @@
+1.  Download repo to your local filesystem
+    - git clone <repo-url>
+2.  Checks out from master, and create your local copy of the repo 
+    - git checkout -b feature/LD-12 
+    - Branch could be random name
+3. Make your changes in the code 
+    - Coding or scripting anything in the clone repo you need to do 
+4. Comit your changes 
+    - git add --all 
+    - git commit -am "Random commit"
+5. Push changes to remote repo (github|bitbucket) etc 
+    - git push origin <branch-name>
+    - Copy the output url and go to GUI to create a pull request 
+6. Let someone review and merge your PR 

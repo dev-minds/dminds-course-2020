@@ -33,3 +33,17 @@ override.tf.json
 # example: *tfplan*
 
 # End of https://www.toptal.com/developers/gitignore/api/terraform
+
+
+
+# Created by https://www.toptal.com/developers/gitignore/api/packer
+# Edit at https://www.toptal.com/developers/gitignore?templates=packer
+
+### Packer ###
+# Cache objects
+packer_cache/
+
+# For built boxes
+*.box
+
+# End of https://www.toptal.com/developers/gitignore/api/packer
