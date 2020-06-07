@@ -45,5 +45,6 @@ packer_cache/
 
 # For built boxes
 *.box
+*.pem 
 
 # End of https://www.toptal.com/developers/gitignore/api/packer
