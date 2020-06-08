@@ -31,13 +31,17 @@ node() {
             secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
         ]]) {
             wrap([$class: 'AnsiColorBuildWrapper', 'colorMapName': 'xterm']){
-                    dir("./lesson_13/infra-cicd"){
+                    dir("./lesson_13/infra-cicd/ami_build"){
                         sh """
-                            aws s3 ls 
+                            packer build fe.json
                         """
                     }                
             }
         }
 
+    }
+
+    stage("DeployToSandbox") {
+        input 'Deploy to sandbox ?'
     }
 }

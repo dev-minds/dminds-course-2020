@@ -1,0 +1,41 @@
+## Credits to John Lieske - https://www.ansible.com/blog/getting-started-writing-your-first-playbook
+---
+- name: Install nginx
+  hosts: all
+  remote_user: centos
+  become: true
+
+  tasks:
+  - name: Add epel-release repo
+    yum:
+      name: epel-release
+      state: present
+
+  - name: Put SELinux in permissive mode, logging actions that would be blocked.
+    selinux:
+      policy: targeted
+      state: permissive
+
+  - name: Disable SELinux
+    selinux:
+      state: disabled
+
+  - name: Install nginx
+    yum:
+      name: nginx
+      state: present
+
+  # - name: Insert Index Page
+  #   template:
+  #     src: index.html
+  #     dest: /usr/share/nginx/html/index.html
+
+  - name: Start NGiNX
+    service:
+      name: nginx
+      state: started
+  
+  - name: Enable nginx 
+    service: 
+      name: nginx 
+      enabled: yes 
