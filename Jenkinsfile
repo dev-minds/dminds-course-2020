@@ -26,7 +26,7 @@ node() {
     stage('TestBuckets') {
         echo "${seperator60}\n${seperator20} Stage two \n${seperator60}"
         withCredentials([[$class: 'AmazonWebServicesCredentialsBinding',
-            credentialsId: "${admin_centrale}",
+            credentialsId: "admin_centrale",
             accessKeyVariable: 'AWS_ACCESS_KEY_ID', 
             secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
         ]]) {
