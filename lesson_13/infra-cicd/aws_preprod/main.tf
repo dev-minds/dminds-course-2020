@@ -6,8 +6,8 @@ terraform {
   required_version = ">= 0.12.12"
 
   backend "s3" {
-    bucket  = "vpc-states"
-    key     = "centralevpc/management-env.tfstate"
+    bucket  = "dm-vpc-states"
+    key     = "preprodvpc/preprod-env.tfstate"
     region  = "eu-west-1"
     encrypt = "true"
   }
