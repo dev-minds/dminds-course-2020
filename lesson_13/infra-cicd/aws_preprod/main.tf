@@ -17,7 +17,7 @@ module "vpc" {
   source = "git::https://github.com/dev-minds/tf_modules.git//fm_vpc_mod/dm_simple_vpc?ref=master"
 
   ip_range = "10.10.0.0/16"
-  name_tag = "management"
+  name_tag = "preprod-vpc"
 
   dns_support = "true"
   dns_hostn   = "true"
