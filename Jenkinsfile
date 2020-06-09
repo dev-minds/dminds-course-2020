@@ -27,7 +27,7 @@ node() {
     }
 
     stage('Prep Mangement VPC') {
-        echo "${seperator60}\n${seperator20} Building VPCs And Management Env \n${seperator60}"
+        echo "${seperator60}\n${seperator20} Preparing VPCs And Management Env \n${seperator60}"
         withCredentials([[$class: 'AmazonWebServicesCredentialsBinding',
             credentialsId: "admin_centrale",
             accessKeyVariable: 'AWS_ACCESS_KEY_ID', 
@@ -66,12 +66,12 @@ node() {
         }
     }
     
-    stage("DeployToSandbox") {
+    stage("PrepSandbox") {
         input 'Prepare Sandbox Vpc ?'
     }
 
-    stage('Prep SandBox VPC') {
-        echo "${seperator60}\n${seperator20} Building VPCs And Management Env \n${seperator60}"
+    stage('SandBox VPC') {
+        echo "${seperator60}\n${seperator20} Preparing To Create SandBox Vpc \n${seperator60}"
         withCredentials([[$class: 'AmazonWebServicesCredentialsBinding',
             credentialsId: "admin_sandbox",
             accessKeyVariable: 'AWS_ACCESS_KEY_ID', 
@@ -83,21 +83,18 @@ node() {
                             terraform init 
                             terraform fmt 
                             terraform validate
-                            input 'Deploy to sandbox ?'
-                            terraform apply -auto-approve
                         """
                     }                
             }
         }
     }
-
-    
+  
     stage("DeployToSandbox") {
         input 'Create Sandbox Vpc ?'
     }
 
-    stage('Prep SandBox VPC') {
-        echo "${seperator60}\n${seperator20} Building VPCs And Management Env \n${seperator60}"
+    stage('Creating SandBox VPC') {
+        echo "${seperator60}\n${seperator20} Building SandBox VPC \n${seperator60}"
         withCredentials([[$class: 'AmazonWebServicesCredentialsBinding',
             credentialsId: "admin_sandbox",
             accessKeyVariable: 'AWS_ACCESS_KEY_ID', 
@@ -113,9 +110,12 @@ node() {
         }
     }
 
+    stage("PrepPreprod") {
+        input 'Prepare Preprod Vpc ?'
+    }
 
     stage('Preprod VPC') {
-        echo "${seperator60}\n${seperator20} Building VPCs And Management Env \n${seperator60}"
+        echo "${seperator60}\n${seperator20} Preparing Preprod VPC \n${seperator60}"
         withCredentials([[$class: 'AmazonWebServicesCredentialsBinding',
             credentialsId: "admin_preprod",
             accessKeyVariable: 'AWS_ACCESS_KEY_ID', 
@@ -127,20 +127,18 @@ node() {
                             terraform init
                             terraform fmt 
                             terraform validate
-                            input 'Deploy to sandbox ?'
-                            terraform apply -auto-approve
                         """
                     }                
             }
         }
     }
 
-    stage("DeployToSandbox") {
-        input 'Create AMIs on sandbox ?'
+    stage("DeployToPreprod") {
+        input 'Creating Preprod Vpc  ?'
     }
 
     stage('Preprod VPC') {
-        echo "${seperator60}\n${seperator20} Building VPCs And Management Env \n${seperator60}"
+        echo "${seperator60}\n${seperator20} Building Preprod Vpc \n${seperator60}"
         withCredentials([[$class: 'AmazonWebServicesCredentialsBinding',
             credentialsId: "admin_preprod",
             accessKeyVariable: 'AWS_ACCESS_KEY_ID', 
@@ -156,26 +154,9 @@ node() {
         }
     }
 
-    stage('SandBox FE & BE AMIs') {
-        echo "${seperator60}\n${seperator20} Building both frontend and backend amis \n${seperator60}"
-        withCredentials([[$class: 'AmazonWebServicesCredentialsBinding',
-            credentialsId: "admin_centrale",
-            accessKeyVariable: 'AWS_ACCESS_KEY_ID', 
-            secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
-        ]]) {
-            wrap([$class: 'AnsiColorBuildWrapper', 'colorMapName': 'xterm']){
-                    dir("./lesson_13/infra-cicd/ami_build"){
-                        sh """
-                            packer build fe.json ; packer build be.json
-                        """
-                    }                
-            }
-        }
 
-    }
-
-    stage("DeployToPreprod") {
-        input 'Deploy to preprod?'
+    stage("AMIBuild") {
+        input 'Start AMI Build?'
     }
 
     stage('SandBox FE & BE AMIs') {
@@ -198,7 +179,7 @@ node() {
     stage('Preprod FE & BE AMIs') {
         echo "${seperator60}\n${seperator20} Building both frontend and backend amis \n${seperator60}"
         withCredentials([[$class: 'AmazonWebServicesCredentialsBinding',
-            credentialsId: "admin_centrale",
+            credentialsId: "admin_sandbox",
             accessKeyVariable: 'AWS_ACCESS_KEY_ID', 
             secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
         ]]) {
