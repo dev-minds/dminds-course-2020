@@ -36,6 +36,7 @@ node() {
             wrap([$class: 'AnsiColorBuildWrapper', 'colorMapName': 'xterm']){
                     dir("./lesson_13/infra-cicd/aws_centrale/"){
                         sh """
+                            ls -lrt
                             terraform fmt 
                             terraform validate
                             terraform init 
