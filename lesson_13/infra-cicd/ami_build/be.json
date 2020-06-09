@@ -1,0 +1,60 @@
+{
+    "variables": {
+        "vpc": "",
+        "subnet": "",
+        "ami_name": "BackendImg_{{isotime \"02-Jan-06 03_04_05\"}}"
+    },
+
+    "builders": [{
+        "name": "BACKEND-BUILD - DMINDS",
+        "ami_description": "Amazon Linux CIS with Cloudwatch Logs agent",
+        "region": "eu-west-1",
+        "type": "amazon-ebs",
+        "associate_public_ip_address": "true",
+        "vpc_id": "{{user `vpc`}}",
+        "subnet_id": "{{user `subnet`}}",
+
+        "source_ami": "ami-0b850cf02cc00fdc8",
+        "instance_type": "t2.micro",
+        "ssh_username": "centos",
+        "ami_name": "{{user `ami_name`}}",
+        "launch_block_device_mappings": [{
+            "device_name": "/dev/sda1",
+            "volume_size": 25,
+            "volume_type": "gp2",
+            "delete_on_termination": true
+        }],
+
+        "tags": {
+          "Name": "{{user `ami_name`}}"
+        },
+        "run_tags": {
+          "Name": "{{user `ami_name`}}"
+        },
+        "run_volume_tags": {
+          "Name": "{{user `ami_name`}}"
+        },
+        "snapshot_tags": {
+          "Name": "{{user `ami_name`}}"
+        }
+      }],
+
+      "provisioners": [{
+            "type": "shell",
+            "inline": [
+              "sudo yum install epel-release -y ; sudo yum install ansible -y"
+            ]
+          },
+          {
+            "type": "ansible-local",
+            "playbook_file": "./nginx_playbook.yaml",
+            "playbook_dir": "./"
+          },
+          {
+            "type": "shell",
+            "inline": [
+              "ping -c5 google.com"
+            ]
+          }
+      ]
+}
