@@ -86,6 +86,7 @@ node() {
                             terraform init 
                             terraform fmt 
                             terraform validate
+                            terraform plan
                         """
                     }                
             }
@@ -130,6 +131,7 @@ node() {
                             terraform init
                             terraform fmt 
                             terraform validate
+                            terraform plan
                         """
                     }                
             }
