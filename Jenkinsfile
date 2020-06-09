@@ -26,7 +26,7 @@ node() {
         checkout scm
     }
 
-    stage('Mangement VPC') {
+    stage('Prep Mangement VPC') {
         echo "${seperator60}\n${seperator20} Building VPCs And Management Env \n${seperator60}"
         withCredentials([[$class: 'AmazonWebServicesCredentialsBinding',
             credentialsId: "admin_centrale",
@@ -39,15 +39,38 @@ node() {
                             terraform init 
                             terraform fmt 
                             terraform validate
-                            input 'Deploy to sandbox ?'
-                            terraform apply -auto-approve
                         """
                     } 
             }
         }
     }
 
-    stage('SandBox VPC') {
+    stage("DeployToCentrale") {
+        input 'Create Centrale|Management Vpc ?'
+    }
+
+    stage('Creating Mangement VPC') {
+        echo "${seperator60}\n${seperator20} Building VPCs And Management Env \n${seperator60}"
+        withCredentials([[$class: 'AmazonWebServicesCredentialsBinding',
+            credentialsId: "admin_centrale",
+            accessKeyVariable: 'AWS_ACCESS_KEY_ID', 
+            secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
+        ]]) {
+            wrap([$class: 'AnsiColorBuildWrapper', 'colorMapName': 'xterm']){
+                    dir("./lesson_13/infra-cicd/aws_centrale/"){
+                        sh """
+                            terraform apply -auto-approve
+                        """
+                    } 
+            }
+        }
+    }
+    
+    stage("DeployToSandbox") {
+        input 'Prepare Sandbox Vpc ?'
+    }
+
+    stage('Prep SandBox VPC') {
         echo "${seperator60}\n${seperator20} Building VPCs And Management Env \n${seperator60}"
         withCredentials([[$class: 'AmazonWebServicesCredentialsBinding',
             credentialsId: "admin_sandbox",
@@ -67,6 +90,29 @@ node() {
             }
         }
     }
+
+    
+    stage("DeployToSandbox") {
+        input 'Create Sandbox Vpc ?'
+    }
+
+    stage('Prep SandBox VPC') {
+        echo "${seperator60}\n${seperator20} Building VPCs And Management Env \n${seperator60}"
+        withCredentials([[$class: 'AmazonWebServicesCredentialsBinding',
+            credentialsId: "admin_sandbox",
+            accessKeyVariable: 'AWS_ACCESS_KEY_ID', 
+            secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
+        ]]) {
+            wrap([$class: 'AnsiColorBuildWrapper', 'colorMapName': 'xterm']){
+                    dir("./lesson_13/infra-cicd/aws_sandbox/"){
+                        sh """
+                            terraform apply -auto-approve
+                        """
+                    }                
+            }
+        }
+    }
+
 
     stage('Preprod VPC') {
         echo "${seperator60}\n${seperator20} Building VPCs And Management Env \n${seperator60}"
@@ -91,6 +137,23 @@ node() {
 
     stage("DeployToSandbox") {
         input 'Create AMIs on sandbox ?'
+    }
+
+    stage('Preprod VPC') {
+        echo "${seperator60}\n${seperator20} Building VPCs And Management Env \n${seperator60}"
+        withCredentials([[$class: 'AmazonWebServicesCredentialsBinding',
+            credentialsId: "admin_preprod",
+            accessKeyVariable: 'AWS_ACCESS_KEY_ID', 
+            secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
+        ]]) {
+            wrap([$class: 'AnsiColorBuildWrapper', 'colorMapName': 'xterm']){
+                    dir("./lesson_13/infra-cicd/aws_preprod/"){
+                        sh """
+                            terraform apply -auto-approve
+                        """
+                    }                
+            }
+        }
     }
 
     stage('SandBox FE & BE AMIs') {
