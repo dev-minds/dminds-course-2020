@@ -27,7 +27,7 @@ node() {
     }
 
     stage('Prep Mangement VPC') {
-        echo "${seperator60}\n${seperator20} Preparing VPCs And Management Env \n${seperator60}"
+        echo "${seperator60}\n${seperator20} Preparing Centrale VPCs \n${seperator60}"
         withCredentials([[$class: 'AmazonWebServicesCredentialsBinding',
             credentialsId: "admin_centrale",
             accessKeyVariable: 'AWS_ACCESS_KEY_ID', 
@@ -50,7 +50,7 @@ node() {
     }
 
     stage('Creating Mangement VPC') {
-        echo "${seperator60}\n${seperator20} Building VPCs And Management Env \n${seperator60}"
+        echo "${seperator60}\n${seperator20} Building Centrale VPCs \n${seperator60}"
         withCredentials([[$class: 'AmazonWebServicesCredentialsBinding',
             credentialsId: "admin_centrale",
             accessKeyVariable: 'AWS_ACCESS_KEY_ID', 
@@ -156,7 +156,7 @@ node() {
 
 
     stage("AMIBuild") {
-        input 'Start AMI Build?'
+        input 'Start AMI Build For SandBox?'
     }
 
     stage('SandBox FE & BE AMIs') {
@@ -174,6 +174,10 @@ node() {
                     }                
             }
         }
+    }
+
+    stage("AMIBuild") {
+        input 'Build AMI for PreProd?'
     }
 
     stage('Preprod FE & BE AMIs') {
