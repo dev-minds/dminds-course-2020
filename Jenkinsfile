@@ -38,6 +38,7 @@ node() {
                         sh """
                             terraform fmt 
                             terraform validate
+                            terraform init 
                             input 'Deploy to sandbox ?'
                             terraform apply -auto-approve
                         """
@@ -58,6 +59,7 @@ node() {
                         sh """
                             terraform fmt 
                             terraform validate
+                            terraform init 
                             input 'Deploy to sandbox ?'
                             terraform apply -auto-approve
                         """
@@ -78,6 +80,7 @@ node() {
                         sh """
                             terraform fmt 
                             terraform validate
+                            terraform init
                             input 'Deploy to sandbox ?'
                             terraform apply -auto-approve
                         """
