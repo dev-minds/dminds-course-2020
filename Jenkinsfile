@@ -36,10 +36,9 @@ node() {
             wrap([$class: 'AnsiColorBuildWrapper', 'colorMapName': 'xterm']){
                     dir("./lesson_13/infra-cicd/aws_centrale/"){
                         sh """
-                            ls -lrt
+                            terraform init 
                             terraform fmt 
                             terraform validate
-                            terraform init 
                             input 'Deploy to sandbox ?'
                             terraform apply -auto-approve
                         """
@@ -58,9 +57,9 @@ node() {
             wrap([$class: 'AnsiColorBuildWrapper', 'colorMapName': 'xterm']){
                     dir("./lesson_13/infra-cicd/aws_sandbox/"){
                         sh """
+                            terraform init 
                             terraform fmt 
                             terraform validate
-                            terraform init 
                             input 'Deploy to sandbox ?'
                             terraform apply -auto-approve
                         """
@@ -79,9 +78,9 @@ node() {
             wrap([$class: 'AnsiColorBuildWrapper', 'colorMapName': 'xterm']){
                     dir("./lesson_13/infra-cicd/aws_preprod/"){
                         sh """
+                            terraform init
                             terraform fmt 
                             terraform validate
-                            terraform init
                             input 'Deploy to sandbox ?'
                             terraform apply -auto-approve
                         """
