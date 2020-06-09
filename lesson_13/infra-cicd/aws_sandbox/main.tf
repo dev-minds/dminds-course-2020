@@ -6,7 +6,7 @@ terraform {
   required_version = ">= 0.12.24"
 
   backend "s3" {
-    bucket  = "sandbox-acct-states"
+    bucket  = "sandbox-cicd-store"
     key     = "sandbox/management-env.tfstate"
     region  = "eu-west-1"
     encrypt = "true"
