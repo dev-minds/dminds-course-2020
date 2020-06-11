@@ -1,0 +1,18 @@
+#
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+# Global declaration
+Vagrant.configure("2") do |config|
+   config.vm.define "DjangoShopDev" do |varname|
+      varname.vm.box = "centos/7"
+      varname.ssh.insert_key = true
+      varname.vm.network "public_network", bridge: "Intel gigabit"
+      varname.vm.provider :virtualbox do |vb|
+         vb.memory = 1300
+         vb.name = "DjangoShopDev"
+      end 
+      varname.vm.provision :shell, path: "bootstrap.sh"
+   end 
+end 
+

@@ -1,0 +1,1 @@
+{"rsync":{"/vagrant":{"type":"rsync","guestpath":"/vagrant","hostpath":"/Users/felixm/OneDrive/onedrive-docs/live_materials/dminds-course-2020/lesson_14/ecomm","disabled":false,"__vagrantfile":true,"owner":"vagrant","group":"vagrant"}}}
